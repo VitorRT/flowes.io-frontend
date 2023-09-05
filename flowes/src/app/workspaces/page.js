@@ -7,7 +7,15 @@ import NavBar from "@/components/navbar";
 import ListViewWorkspaces from '@/components/ListViewWorkspaces';
 import Link from 'next/link';
 
-export default function Workspaces() {
+
+async function GetWorkSpaces(){
+    const url = "localhost:8080/api/v1/workspace"
+    const resp = await fetch(url, {next: {revalidate: 0}})
+    return resp.json;
+}
+
+
+export default async function Workspaces() {
     const [workspaces, setWorkspaces] = useState([
         {
             title: "Programação",
@@ -52,6 +60,8 @@ export default function Workspaces() {
             createdAt: "10/05/2024"
         },
     ]);
+
+    const contas = await GetWorkSpaces();
     return (
         <>
             <NavBar active={"workspaces"} />
