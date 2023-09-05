@@ -5,6 +5,7 @@ import ButtonMain from "@/components/button";
 import Card from "@/components/card";
 import NavBar from "@/components/navbar";
 import ListViewWorkspaces from '@/components/ListViewWorkspaces';
+import Link from 'next/link';
 
 export default function Workspaces() {
     const [workspaces, setWorkspaces] = useState([
@@ -58,7 +59,9 @@ export default function Workspaces() {
             <main className="bg-neutral-50 p-11 mx-24 my-12 rounded-lg shadow-md max-[670px]:mx-0">
                 <div className="flex max-[670px]:block justify-between items-center mb-12">
                     <p className="text-xl font-normal max-[670px]:text-center max-[670px]:mb-5">Suas Workspaces</p>
-                    <ButtonMain className={"bg-orange-400 py-4 px-6 rounded-lg text-white hover:bg-orange-300 active:bg-orange-500"} title={"Criar Workspace"} type="button" />
+                    <Link href={"/workspaces/create"}>
+                        <ButtonMain className={"bg-orange-400 py-4 px-6 rounded-lg text-white hover:bg-orange-300 active:bg-orange-500 max-[670px]:bg-neutral-50 max-[670px]:text-orange-600 hover:"} title={"Criar Workspace"} type="button" />
+                    </Link>
                 </div>
 
                 <ListViewWorkspaces workspaces={workspaces}/>
