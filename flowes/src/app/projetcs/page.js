@@ -1,6 +1,6 @@
 import ButtonMain from "@/components/button";
 import NavBar from "@/components/navbar";
-import { useState } from "react";
+import Link from "next/link"
 
 async function GetProjects(){
     const url = "localhost:8080/api/v1/workspace"
@@ -10,9 +10,7 @@ async function GetProjects(){
 
 
 export default async function Projects(){
-    const [projects, setProjects] = useState([])
-
-    const projetos = await GetProjects()
+    //const projetos = await GetProjects()
 
     return(
         <>

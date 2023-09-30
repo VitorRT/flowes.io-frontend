@@ -1,67 +1,15 @@
-'use client'
+"use server"
 
-import React, { useState } from 'react';
 import ButtonMain from "@/components/button";
-import Card from "@/components/card";
 import NavBar from "@/components/navbar";
 import ListViewWorkspaces from '@/components/ListViewWorkspaces';
 import Link from 'next/link';
-
-
-async function GetWorkSpaces(){
-    const url = "localhost:8080/api/v1/workspace"
-    const resp = await fetch(url, {next: {revalidate: 0}})
-    return resp.json;
-}
+import { getWorkspaces } from "@/actions/workspaces";
 
 
 export default async function Workspaces() {
-    const [workspaces, setWorkspaces] = useState([
-        {
-            title: "Programação",
-            lastProject: {
-                title: "Java Pac Man",
-                tasks: {
-                    qtdTasksCompleted: 5,
-                    totlaTasks: 10
-                },
-                deadline: "01/01/2022",
-                createdAt: "20/02/2022"
-            },
-            image: "https://images.pexels.com/photos/4709289/pexels-photo-4709289.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            createdAt: "20/02/2022"
-        },
-        {
-            title: "Digital Art",
-            lastProject: {
-                title: "Comission Março",
-                tasks: {
-                    qtdTasksCompleted: 5,
-                    totlaTasks: 10
-                },
-                deadline: "02/205/2023",
-                createdAt: "14/03/2022"
-            },
-            image: "https://images.pexels.com/photos/5011647/pexels-photo-5011647.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            createdAt: "12/01/2022"
-        },
-        {
-            title: "New Tale",
-            lastProject: {
-                title: "Mytale Project",
-                tasks: {
-                    qtdTasksCompleted: 5,
-                    totlaTasks: 10
-                },
-                deadline: "10/05/2025",
-                createdAt: "10/05/2024"
-            },
-            image: "https://images.pexels.com/photos/6807304/pexels-photo-6807304.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            createdAt: "10/05/2024"
-        },
-    ]);
-
-    const contas = await GetWorkSpaces();
+const response = await getWorkspaces();
+const workspaces = response["_embedded"]["listingDataWorkspaceList"] 
     return (
         <>
             <NavBar active={"workspaces"} />

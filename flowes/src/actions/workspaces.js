@@ -1,29 +1,30 @@
-"user server"
-
-
+"use server"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 
 
-const url = process.env.NEXT_PUBLIC_BASE_URL + "/workspaces"
+const url = process.env.NEXT_PUBLIC_BASE_URL + "/workspace"
 
-export async function create(formData){
-    const token = cookies().get('') //token
+export async function createWorkspace(formData){
+   // const token = cookies().get('') //token
 
     const options = {
         method: 'POST',
-        body: JSON.stringify(Object.fromEntries(formData)),
+        body: JSON.stringify(
+            {
+                client: { id: 1},
+                ...Object.fromEntries(formData)
+            }
+        ),
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token.value}`
+     //       "Authorization": `Bearer ${token.value}`
         }
     }
 
     const resp = await fetch(url, options)
     if(resp.status !==201){
-        const json = await resp.json()
-        const erros = json.reduce((str, error)=> str += error.message + ". ", "")
-        return {message: `Erro ao cadastrar workspace. ${erros}`}
+        return {message: `Erro ao cadastrar workspace.`}
     }
 
     revalidatePath("/workspaces")
@@ -31,24 +32,28 @@ export async function create(formData){
 }
 
 
-export async function getProjetos(){
-    const token = cookies().get() //token
+export async function getWorkspaces(){
+   // const token = cookies().get() //token
     const options = {
         headers:{
-            "Authorization": `Barer ${token.value}`
+     //       "Authorization": `Barer ${token.value}`
         }
     }
 
     const resp = await fetch(url, options)
 
-    if(resp.status !=200)
-        console.log(resp)
+    if(resp.status !=200) {
+        console.log(resp.json())
+    }
+        
+    const data = await resp.json()  
 
-    return resp.json()
+    revalidatePath("/workspaces")
+    return data
     
 }
 
-export async function destroy(){
+export async function destroy(id){
     const urlDelete = url + "/" + id
 
     const options = {
@@ -62,7 +67,7 @@ export async function destroy(){
     revalidatePath('/workspaces')
 }
 
-export async function getProjeto(id){
+export async function getWorkspaceById(id){
     const getUrl = url + "/" + id
 
     const resp = await fetch(getUrl)
@@ -72,19 +77,25 @@ export async function getProjeto(id){
     return await resp.json()
 }
 
-export async function update(projeto){
+export async function updateWorkspace(workspace){
 
-    const updateUrl = url + "/" + projeto.id
-
+    const updateUrl = url + "/" + workspace.id
+    const payload = {
+        name: workspace.name,
+        workspaceImage: workspace.workspaceImage,
+        description: workspace.description
+    }
     const options = {
         method: "PUT",
-        body: JSON.stringify(projeto),
+        body: JSON.stringify(payload),
         headers : {"Content-Type":"application/json"},
     }
-
+    console.log(workspace)
     const resp = await fetch(updateUrl, options)
 
     if(resp.status !== 200)
         return {error: "erro ao atualizar workspace"}
+
     revalidatePath('/workspaces')
+    return null;
 }

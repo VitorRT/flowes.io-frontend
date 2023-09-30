@@ -1,6 +1,6 @@
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast"
 
-export default function useToast(){
+export default function useToast() {
     const config = {
         style: {
             borderRadius: '4px',
@@ -10,6 +10,8 @@ export default function useToast(){
     }
 
     const error = message => toast.error(message, config)
-    const success= message => toast.success(message, config)
-}
+    const success = message => toast.success(message,config)
 
+    return { error, success }
+
+}

@@ -1,4 +1,4 @@
-export default function TextInput({ className, type, placeholder }) {
+export default function TextInput({ className, type, placeholder, name, value, onChange }) {
     const types = [
         'button',
         'checkbox',
@@ -24,10 +24,11 @@ export default function TextInput({ className, type, placeholder }) {
         'week',
     ]
     const getInputType = () => {
+        if (!type) return "text"; // Se type for undefined, retorna "text"
         for(let t of types) {
             if (type.trim() === t) return t;
-            if (type.trim() === null || type.trim() === "") return "text";
         }
+        return "text"; // Retorna "text" se não encontrar um tipo suportado
     }
 
     const defaultStyle = "p-2 border rounded-lg border-orange-400 ring-transparent";
@@ -38,7 +39,9 @@ export default function TextInput({ className, type, placeholder }) {
                 className={`${defaultStyle} ${className}`} 
                 type={getInputType()} 
                 placeholder={placeholder} 
-
+                name={name}
+                value={value}
+                onChange={onChange}
             />
         </>
     )

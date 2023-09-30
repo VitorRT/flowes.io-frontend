@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function CreateProjects(){
     return(
         <>
-            <NavBar active={projects}/>
+            <NavBar active={"projects"}/>
 
             <main>
                 <Link href={"/projects"}>Voltar</Link>
