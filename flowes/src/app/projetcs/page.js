@@ -1,21 +1,20 @@
+
 import ButtonMain from "@/components/button";
 import NavBar from "@/components/navbar";
 import Link from "next/link"
+import { getProjetos } from "@/actions/projetos";
+import ListViewProjects from "@/components/ListViewProjects";
 
-async function GetProjects(){
-    const url = "localhost:8080/api/v1/workspace"
-    const resp = await fetch(url, {next: {revalidate: 0}})
-    return resp.json;
-}
 
 
 export default async function Projects(){
-    //const projetos = await GetProjects()
+    const response = await getProjetos();
+    //const projects = response["_embedded"]["ListingProjec"]
 
     return(
         <>
             <NavBar active={"projects"}/>
-
+    
             <main>
                 <div className="flex max-[670px]:block justify-between items-center mb-12">
                     <p className="text-xl font-normal max-[670px]:text-center max-[670px]:mb-5 ">Seus Projetos</p>
@@ -24,7 +23,16 @@ export default async function Projects(){
                         </Link>
                
                 </div>
+
+                <ListViewProjects projects={projects}/>
             </main>
         </>
     )
 }
+
+
+
+
+
+
+

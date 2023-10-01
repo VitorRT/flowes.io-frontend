@@ -3,35 +3,53 @@ import ButtonMain from "@/components/button";
 import NavBar from "@/components/navbar";
 import TextInput from "@/components/textinput";
 import Link from 'next/link';
+import {redirect} from 'next/navigation'
+import { useState } from "react";
+import {createProjects} from '@/actions/projetos';
 
 export default function CreateProjects(){
+    const [error, setError] = useState("");
+
+    async function handleSubmit(formData){
+        const resp = await createProjects(formData);
+        if(resp.success){
+            setError(resp.message);
+            return;
+        }
+        redirect("/projects")
+    }
+
     return(
         <>
-            <NavBar active={"projects"}/>
+            <NavBar/>
 
             <main>
-                <Link href={"/projects"}>Voltar</Link>
-                <h2>Registro de Projetos</h2>
-                <form>
-                    <div>
+                <div>
+                    <h2></h2>
+                    <span></span>
+                    <form action={handleSubmit}>
                         <div>
-                            <p>Project Name</p>
-                            <TextInput/>
-                        </div>
+                            <div>
+                                <p></p>
+                                <TextInput/>
+                            </div>
 
-                        <div>
-                            <p>DeadLine</p>
-                            <TextInput/>
+                            <div>
+                                <p></p>
+                                <TextInput/>
+                            </div>
+
+                            <div>
+                                <p></p>
+                                <textarea></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div>
                         <div>
-                            <p>Description (Optional)</p>
-                            <textarea></textarea>
+                            <ButtonMain title={"Criar"} type={"submit"}/>
+                            <Link>Voltar</Link>
                         </div>
-                        <ButtonMain title={"Criar Projeto"} type={"submit"}/>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </main>
         </>
     )

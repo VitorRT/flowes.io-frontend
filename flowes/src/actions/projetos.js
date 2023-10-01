@@ -5,15 +5,15 @@ import {cookies} from 'next/headers';
 
 const url = process.env.NEXT_PUBLIC_BASE_URL + "/conta";
 
-export async function create(formData){
-    const token = cookies().get('') //token
+export async function createProjects(formData){
+   // const token = cookies().get('') //token
 
     const options = {
         method: 'POST',
         body: JSON.stringify(Object.fromEntries(formData)),
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token.value}`
+            //"Authorization": `Bearer ${token.value}`
         }
     }
 
@@ -60,7 +60,7 @@ export async function destroy(){
     revalidatePath('/projetos')
 }
 
-export async function getProjeto(id){
+export async function getProjetoById(id){
     const getUrl = url + "/" + id
 
     const resp = await fetch(getUrl)
@@ -70,7 +70,7 @@ export async function getProjeto(id){
     return await resp.json()
 }
 
-export async function update(projeto){
+export async function updateProject(projeto){
 
     const updateUrl = url + "/" + projeto.id
 

@@ -30,6 +30,7 @@ export default function NavBar({ active }) {
                     <ul className={`lg:flex gap-16 items-center`}>
                         <li className={`lg:my-0 my-6 ${active === "home" ? "text-orange-600" : ""}`}><Link href="/">home</Link></li>
                         <li className={`lg:my-0 my-6 ${active === "workspaces" ? "text-orange-600" : ""}`}><Link href="/workspaces">workspaces</Link></li>
+                        <li className={`lg:my-0 my-6 ${active === "projects" ? "text-orange-600" : ""}`}><Link href="/projects">projects</Link></li>
                     </ul>
                     <ul className="lg:flex gap-16 items-center">
                         <li className={`lg:my-0 my-6 ${active === "configuracoes" ? "text-orange-600" : ""}`}><Link href="/configuracoes">configurações</Link></li>
