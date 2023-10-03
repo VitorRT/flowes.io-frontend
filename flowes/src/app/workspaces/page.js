@@ -9,7 +9,9 @@ import { getWorkspaces } from "@/actions/workspaces";
 
 export default async function Workspaces() {
 const response = await getWorkspaces();
-const workspaces = response["_embedded"]["listingDataWorkspaceList"] 
+
+// ** correção ** - Comentário: Como o front-end precisa da api para pode listar as workspaces e não estava preparada para não lidar com essa situção, era previsível dar erro. Então eu programei e a preparei para lidar com essa situação.
+const workspaces = response["_embedded"] ? response["_embedded"]["listingDataWorkspaceList"] : null 
     return (
         <>
             <NavBar active={"workspaces"} />
