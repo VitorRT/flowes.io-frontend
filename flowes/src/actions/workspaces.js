@@ -14,12 +14,11 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import chalk from "chalk";
-
 const url = process.env.NEXT_PUBLIC_BASE_URL + "/workspace";
 
 export async function createWorkspace(formData) {
   try {
-    // const token = cookies().get('') //token
+    const token = cookies().get('flowes_token')
 
     const options = {
       method: 'POST',
@@ -29,7 +28,7 @@ export async function createWorkspace(formData) {
       }),
       headers: {
         "Content-Type": "application/json",
-        // "Authorization": `Bearer ${token.value}`
+        "Authorization": `Bearer ${token.value}`
       }
     }
 
@@ -49,10 +48,10 @@ export async function createWorkspace(formData) {
 
 export async function getWorkspaces() {
   try {
-    // const token = cookies().get() //token
+    const token = cookies().get('flowes_token') 
     const options = {
       headers: {
-        // "Authorization": `Barer ${token.value}`
+        "Authorization": `Barer ${token.value}`
       }
     }
 
@@ -74,11 +73,15 @@ export async function getWorkspaces() {
 }
 
 export async function destroy(id) {
+  const token = cookies().get('flowes_token') 
   try {
     const urlDelete = url + "/" + id;
 
     const options = {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Authorization": `Barer ${token.value}`
+      }
     }
 
     const resp = await fetch(urlDelete, options);
@@ -97,10 +100,18 @@ export async function destroy(id) {
 }
 
 export async function getWorkspaceById(id) {
+  const token = cookies().get('flowes_token') 
   try {
     const getUrl = url + "/" + id;
 
-    const resp = await fetch(getUrl);
+    const options = {
+      method: "GET",
+      headers: {
+        "Authorization": `Barer ${token.value}`
+      }
+    }
+
+    const resp = await fetch(getUrl, options);
 
     if (resp.status !== 200) {
       console.error('Erro ao buscar dados da workspace:', await resp.json());
@@ -115,6 +126,7 @@ export async function getWorkspaceById(id) {
 }
 
 export async function updateWorkspace(workspace) {
+  const token = cookies().get('flowes_token') 
   try {
     const updateUrl = url + "/" + workspace.id;
     const payload = {
@@ -125,7 +137,10 @@ export async function updateWorkspace(workspace) {
     const options = {
       method: "PUT",
       body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json", 
+        "Authorization": `Barer ${token.value}`
+      },
     }
 
     const resp = await fetch(updateUrl, options);

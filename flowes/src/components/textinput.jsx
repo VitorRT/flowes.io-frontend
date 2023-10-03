@@ -1,4 +1,4 @@
-export default function TextInput({ className, type, placeholder, name, value, onChange }) {
+export default function TextInput({ className, type, placeholder, name,register=()=>{}, value, onChange }) {
     const types = [
         'button',
         'checkbox',
@@ -42,6 +42,7 @@ export default function TextInput({ className, type, placeholder, name, value, o
                 name={name}
                 value={value}
                 onChange={onChange}
+                {...register(name)}
             />
         </>
     )

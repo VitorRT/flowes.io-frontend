@@ -18,14 +18,14 @@ const url = process.env.NEXT_PUBLIC_BASE_URL + "/conta";
 
 export async function createProjects(formData) {
   try {
-    // const token = cookies().get('') //token
+    const token = cookies().get('flowes_token')
 
     const options = {
       method: 'POST',
       body: JSON.stringify(Object.fromEntries(formData)),
       headers: {
         "Content-Type": "application/json",
-        //"Authorization": `Bearer ${token.value}`
+        "Authorization": `Bearer ${token.value}`
       }
     }
 
@@ -47,7 +47,7 @@ export async function createProjects(formData) {
 
 export async function getProjetos() {
   try {
-    const token = cookies().get() //token
+    const token = cookies().get('flowes_token')
     const options = {
       headers: {
         "Authorization": `Bearer ${token.value}`
@@ -69,11 +69,15 @@ export async function getProjetos() {
 }
 
 export async function destroy(id) {
+  const token = cookies().get('flowes_token')
   try {
     const urlDelete = url + "/" + id;
 
     const options = {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token.value}`
+      }
     }
 
     const resp = await fetch(urlDelete, options);
@@ -92,10 +96,18 @@ export async function destroy(id) {
 }
 
 export async function getProjetoById(id) {
+  const token = cookies().get('flowes_token')
   try {
     const getUrl = url + "/" + id;
 
-    const resp = await fetch(getUrl);
+    const options = {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token.value}`
+      }
+    }
+
+    const resp = await fetch(getUrl, options);
 
     if (resp.status !== 200) {
       console.error(chalk.red('Erro ao buscar dados do projeto:'), await resp.json());
@@ -110,13 +122,17 @@ export async function getProjetoById(id) {
 }
 
 export async function updateProject(projeto) {
+  const token = cookies().get('flowes_token')
   try {
     const updateUrl = url + "/" + projeto.id;
 
     const options = {
       method: "PUT",
       body: JSON.stringify(projeto),
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token.value}` 
+      },
     }
 
     const resp = await fetch(updateUrl, options);
