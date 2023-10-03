@@ -1,10 +1,22 @@
-'use client'
+"use client"
 
 import { useState } from 'react';
 import Link from "next/link";
+import { useContext } from 'react';
+import { AuthContext } from '@/app/contexts/AuthContext';
+import ButtonMain from './button';
+import { useRouter } from 'next/navigation';
 
 export default function NavBar({ active }) {
     const [navBarActive, setNavBarActive] = useState(false);
+    const {user, logout} = useContext(AuthContext);
+    const {push} = useRouter()
+
+    function handleLogout(){
+        logout()
+        push("/login")
+    }
+
 
     return (
         <>
@@ -35,7 +47,12 @@ export default function NavBar({ active }) {
                     <ul className="lg:flex gap-16 items-center">
                         <li className={`lg:my-0 my-6 ${active === "configuracoes" ? "text-orange-600" : ""}`}><Link href="/configuracoes">configurações</Link></li>
                         <li className={`lg:my-0 my-6 ${active === "notificacoes" ? "text-orange-600" : ""}`}><Link href="/notificacoes">notificações</Link></li>
+                        <span>{ user?.email}</span>
                         <img src="https://i.pravatar.cc/100" alt="avatar" className="w-10 h-10 rounded-full border-2 border-orange-600 " />
+
+                        <button   className={"bg-orange-400 py-4 px-6 rounded-lg text-white hover:bg-orange-300 active:bg-orange-500 max-[670px]:bg-neutral-50 max-[670px]:text-orange-600 hover:"}
+                        onClick={handleLogout}
+                        >Logout</button>
                     </ul>
                 </nav>
             </header>

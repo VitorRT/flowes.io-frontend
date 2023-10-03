@@ -1,15 +1,13 @@
-import {NextResponse} from 'next/server';
+import { NextResponse } from "next/server";
 
-//login
 export function middleware(request){
-    if (!request.cookies.has('')) //token
-        return NextResponse.redirect(new URL('/'))
+    if(!request.cookies.has('flowes_token'))
+        return NextResponse.redirect(new URL('/login', request.url))
 }
 
-//config
-export const config = {
+export const config ={
     matcher: [
         '/workspaces/:path*',
-        '/projetos/:path*',
+        '/projects/:path*'
     ]
 }
